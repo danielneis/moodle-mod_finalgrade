@@ -270,10 +270,7 @@ function finalgrade_grade_item_update(stdClass $finalgrade) {
 
     /** @example */
     $item = array();
-    $item['itemname'] = clean_param($finalgrade->name, PARAM_NOTAGS);
-    $item['gradetype'] = GRADE_TYPE_VALUE;
-    $item['grademax']  = $finalgrade->grade;
-    $item['grademin']  = 0;
+    $item['maxgrade']  = $finalgrade->grade;
 
     grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, null, $item);
 }
@@ -392,6 +389,21 @@ function finalgrade_extend_navigation(navigation_node $navref, stdclass $course,
 function finalgrade_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $finalgradenode=null) {
 }
 
-function finalgrade_course_final_grade_regrade($eventdata) {
-    var_dump($eventdata);die();
+function finalgrade_grade_regrade_final_grades($eventdata) {
+    global $DB;
+
+    // if we have a finalgrade module instance that import grades from the updated course
+
+    $sql = "SELECT * FROM finalgrade WHERE course_for_grade = {$eventdata->courseid}";
+    if ($modules = $DB->get_records_sql($sql)) {
+
+        $grade_grades = grade_grade::fetch_users_grades($eventdata->updateditem, array($eventdata->userid), true);
+
+        foreach ($modules as $m) {
+            foreach ($grade_grades as $gg) {
+                $grades = array('userid' => $gg->userid, 'rawgrade' => $gg->rawgrade, 'rawgrade' => $gg->finalgrade);
+                grade_update('mod/finalgrade', $m->course, 'mod', 'finalgrade', $m->id, 0, $grades);
+            }
+        }
+    }
 }

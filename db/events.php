@@ -1,9 +1,9 @@
 <?php
 
 $handlers = array (
-    'course_final_grade_regraded' => array (
+    'grade_regrade_final_grades' => array (
         'handlerfile'      => '/mod/finalgrade/lib.php',
-        'handlerfunction'  => 'finalgrade_course_final_grade_regraded',
+        'handlerfunction'  => 'finalgrade_grade_regrade_final_grades',
         'schedule'         => 'instant',
         'internal'         => 1,
     ),

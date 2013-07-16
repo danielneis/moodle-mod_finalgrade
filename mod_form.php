@@ -57,8 +57,12 @@ class mod_finalgrade_mod_form extends moodleform_mod {
 
         $this->add_intro_editor();
 
-        $courses = enrol_get_my_courses(array('fullname'));
-        $mform->addElement('select', 'course_for_grade', get_string('courseforgrande', 'finalgrade'), $courses);
+        $courses = get_courses("all", "fullname DESC", "c.id, c.fullname");
+        $options = array();
+        foreach ($courses as $c) {
+            $options[$c->id] = $c->fullname;
+        }
+        $mform->addElement('select', 'course_for_grade', get_string('courseforgrade', 'finalgrade'), $options);
 
         $this->standard_coursemodule_elements();
 

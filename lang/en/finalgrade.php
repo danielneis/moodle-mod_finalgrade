@@ -39,3 +39,4 @@ $string['finalgradename_help'] = 'This is the content of the help tooltip associ
 $string['finalgrade'] = 'finalgrade';
 $string['pluginadministration'] = 'finalgrade administration';
 $string['pluginname'] = 'finalgrade';
+$string['courseforgrade'] = 'Course to import grades from';

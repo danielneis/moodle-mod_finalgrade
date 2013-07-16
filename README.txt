@@ -1,43 +1,12 @@
-The following steps should get you up and running with
-this module template code.
 
-* DO NOT PANIC!
+This activity module allows final grades from other
+courses to be used as activity grade in a course.
 
-* Unzip the archive and read this file
+This requires that you patch your Moodle with a very
+little patch until MDL-40697 is accepted in mainline.
 
-* Rename the finalgrade/ folder to the name of your module (eg "widget").
-  The module folder MUST be lower case. You should check the CVS contrib
-  area at http://cvs.moodle.org/contrib/plugins/mod/ to make sure that
-  your name is not already used by an other module. Registering the plugin
-  name @ http://moodle.org/plugins will secure it for you.
+To get the patch for Moodle 2.5 go to the link below
+https://github.com/danielneis/moodle/compare/MOODLE_25_STABLE...MDL-40697.diff
 
-* Edit all the files in this directory and its subdirectories and change
-  all the instances of the string "finalgrade" to your module name
-  (eg "widget"). If you are using Linux, you can use the following command
-  $ find . -type f -exec sed -i 's/finalgrade/widget/g' {} \;
 
-* Rename the file lang/en/finalgrade.php to lang/en/widget.php
-  where "widget" is the name of your module
-
-* Place the widget folder into the /mod folder of the moodle
-  directory.
-
-* Go to Settings > Site Administration > Development > XMLDB editor
-  and modify the module's tables.
-
-* Modify version.php and set the initial version of you module.
-
-* Visit Settings > Site Administration > Notifications, you should find
-  the module's tables successfully created
-
-* Go to Site Administration > Plugins > Activity modules > Manage activities
-  and you should find that this finalgrade has been added to the list of
-  installed modules.
-
-* You may now proceed to run your own code in an attempt to develop
-  your module. You will probably want to modify mod_form.php and view.php
-  as a first step. Check db/access.php to add capabilities.
-
-We encourage you to share your code and experience - visit http://moodle.org
-
-Good luck!
+After applying the patch, install the module as usual.

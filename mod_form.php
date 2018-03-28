@@ -45,7 +45,7 @@ class mod_finalgrade_mod_form extends moodleform_mod {
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
-        $mform->addElement('text', 'name', get_string('finalgradename', 'finalgrade'), array('size'=>'64'));
+        $mform->addElement('text', 'name', get_string('finalgradename', 'mod_finalgrade'), array('size'=>'64'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
@@ -55,14 +55,14 @@ class mod_finalgrade_mod_form extends moodleform_mod {
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
         $mform->addHelpButton('name', 'finalgradename', 'finalgrade');
 
-        $this->add_intro_editor();
+        $this->standard_intro_elements();
 
         $courses = get_courses("all", "fullname DESC", "c.id, c.fullname");
         $options = array();
         foreach ($courses as $c) {
             $options[$c->id] = $c->fullname;
         }
-        $mform->addElement('select', 'course_for_grade', get_string('courseforgrade', 'finalgrade'), $options);
+        $mform->addElement('select', 'course_for_grade', get_string('courseforgrade', 'mod_finalgrade'), $options);
 
         $this->standard_coursemodule_elements();
 

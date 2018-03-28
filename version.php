@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -22,15 +21,14 @@
  * This code fragment is called by moodle_needs_upgrading() and
  * /admin/index.php
  *
- * @package    mod
- * @subpackage finalgrade
- * @copyright  2011 Your Name
+ * @package    mod_finalgrade
+ * @copyright  2018 Daniel Neis Araujo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$module->version   = 2013071600;      // The current module version (Date: YYYYMMDDXX)
-$module->requires  = 2010031900;      // Requires this Moodle version
-$module->cron      = 0;               // Period for cron to check this module (secs)
-$module->component = 'mod_finalgrade'; // To check on upgrade, that module sits in correct place
+$plugin->version   = 2018032801;      // The current module version (Date: YYYYMMDDXX)
+$plugin->requires  = 2017111302;      // Requires this Moodle version
+$plugin->cron      = 0;               // Period for cron to check this module (secs)
+$plugin->component = 'mod_finalgrade'; // To check on upgrade, that module sits in correct place

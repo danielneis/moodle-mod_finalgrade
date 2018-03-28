@@ -40,9 +40,8 @@
  *
  * The variable name for the capability definitions array is $capabilities
  *
- * @package    mod
- * @subpackage finalgrade
- * @copyright  2011 Your Name
+ * @package    mod_finalgrade
+ * @copyright  2018 Daniel Neis Araujo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -70,7 +69,7 @@ $capabilities = array(
             'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'admin' => CAP_ALLOW
+            'manager' => CAP_ALLOW
         )
     ),
 );

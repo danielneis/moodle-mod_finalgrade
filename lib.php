@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -49,6 +48,7 @@ defined('MOODLE_INTERNAL') || die();
 function finalgrade_supports($feature) {
     switch($feature) {
         case FEATURE_MOD_INTRO:         return true;
+        case FEATURE_GRADE_HAS_GRADE:   return true;
         default:                        return null;
     }
 }
@@ -70,9 +70,10 @@ function finalgrade_add_instance(stdClass $finalgrade, mod_finalgrade_mod_form $
 
     $finalgrade->timecreated = time();
 
-    # You may have to add extra stuff in here #
+    $finalgrade->id = $DB->insert_record('finalgrade', $finalgrade);
+    finalgrade_grade_item_update($finalgrade);
 
-    return $DB->insert_record('finalgrade', $finalgrade);
+    return $finalgrade->id;
 }
 
 /**
@@ -92,9 +93,12 @@ function finalgrade_update_instance(stdClass $finalgrade, mod_finalgrade_mod_for
     $finalgrade->timemodified = time();
     $finalgrade->id = $finalgrade->instance;
 
-    # You may have to add extra stuff in here #
+    $DB->update_record('finalgrade', $finalgrade);
 
-    return $DB->update_record('finalgrade', $finalgrade);
+    finalgrade_update_grades($finalgrade);
+    finalgrade_grade_item_update($finalgrade);
+
+    return true;
 }
 
 /**
@@ -110,15 +114,29 @@ function finalgrade_update_instance(stdClass $finalgrade, mod_finalgrade_mod_for
 function finalgrade_delete_instance($id) {
     global $DB;
 
-    if (! $finalgrade = $DB->get_record('finalgrade', array('id' => $id))) {
+    if (!$finalgrade = $DB->get_record('finalgrade', array('id' => $id))) {
         return false;
     }
 
-    # Delete any dependent records here #
-
     $DB->delete_records('finalgrade', array('id' => $finalgrade->id));
 
+    finalgrade_grade_item_delete($finalgrade);
+
     return true;
+}
+
+/**
+ * Delete grade item for given finalgrade
+ *
+ * @category grade
+ * @param stdClass $finalgrade Finalgrade object
+ * @return grade_item
+ */
+function finalgrade_grade_item_delete($finalgrade) {
+    global $CFG;
+    require_once($CFG->libdir.'/gradelib.php');
+
+    return grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, NULL, array('deleted'=>1));
 }
 
 /**
@@ -264,15 +282,20 @@ function finalgrade_scale_used_anywhere($scaleid) {
  * @param stdClass $finalgrade instance object with extra cmidnumber and modname property
  * @return void
  */
-function finalgrade_grade_item_update(stdClass $finalgrade) {
-    global $CFG;
-    require_once($CFG->libdir.'/gradelib.php');
+function finalgrade_grade_item_update($finalgrade, $grades = null) {
+    global $CFG, $DB;
+    if (!function_exists('grade_update')) { //workaround for buggy PHP versions
+        require_once($CFG->libdir.'/gradelib.php');
+    }
 
-    /** @example */
-    $item = array();
-    $item['maxgrade']  = $finalgrade->grade;
+    $sql = "SELECT gi.*
+              FROM {grade_items} gi
+             WHERE gi.courseid = ?
+               AND gi.itemtype = 'course'";
+    $item = (array)$DB->get_record_sql($sql, array($finalgrade->course_for_grade));
+    unset($item['id']);
 
-    grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, null, $item);
+    grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, $grades, $item);
 }
 
 /**
@@ -287,9 +310,10 @@ function finalgrade_grade_item_update(stdClass $finalgrade) {
 function finalgrade_update_grades(stdClass $finalgrade, $userid = 0) {
     global $CFG, $DB;
     require_once($CFG->libdir.'/gradelib.php');
+    require_once($CFG->libdir.'/grade/querylib.php');
 
-    /** @example */
-    $grades = array(); // populate array of grade objects indexed by userid
+    $grades = grade_get_course_grades($finalgrade->course_for_grade);
+    var_dump($grades);die();
 
     grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, $grades);
 }

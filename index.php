@@ -49,8 +49,8 @@ $PAGE->set_context($coursecontext);
 
 echo $OUTPUT->header();
 
-if (! $finalgrades = get_all_instances_in_course('finalgrade', $course)) {
-    notice(get_string('nofinalgrades', 'finalgrade'), new moodle_url('/course/view.php', array('id' => $course->id)));
+if (!$finalgrades = get_all_instances_in_course('finalgrade', $course)) {
+    notice(get_string('nofinalgrades', 'mod_finalgrade'), new moodle_url('/course/view.php', array('id' => $course->id)));
 }
 
 if ($course->format == 'weeks') {
@@ -67,12 +67,12 @@ if ($course->format == 'weeks') {
 foreach ($finalgrades as $finalgrade) {
     if (!$finalgrade->visible) {
         $link = html_writer::link(
-            new moodle_url('/mod/finalgrade.php', array('id' => $finalgrade->coursemodule)),
+            new moodle_url('/mod/finalgrade/view.php', array('id' => $finalgrade->coursemodule)),
             format_string($finalgrade->name, true),
             array('class' => 'dimmed'));
     } else {
         $link = html_writer::link(
-            new moodle_url('/mod/finalgrade.php', array('id' => $finalgrade->coursemodule)),
+            new moodle_url('/mod/finalgrade/view.php', array('id' => $finalgrade->coursemodule)),
             format_string($finalgrade->name, true));
     }
 
@@ -83,6 +83,6 @@ foreach ($finalgrades as $finalgrade) {
     }
 }
 
-echo $OUTPUT->heading(get_string('modulenameplural', 'finalgrade'), 2);
+echo $OUTPUT->heading(get_string('modulenameplural', 'mod_finalgrade'), 2);
 echo html_writer::table($table);
 echo $OUTPUT->footer();

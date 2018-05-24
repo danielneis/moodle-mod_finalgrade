@@ -30,13 +30,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['modulename'] = 'finalgrade';
-$string['modulenameplural'] = 'finalgrades';
-$string['modulename_help'] = 'Use the finalgrade module for... | The finalgrade module allows...';
-$string['finalgradefieldset'] = 'Custom example fieldset';
-$string['finalgradename'] = 'finalgrade name';
-$string['finalgradename_help'] = 'This is the content of the help tooltip associated with the finalgradename field. Markdown syntax is supported.';
+$string['courseforgrade'] = 'Source Course';
+$string['courseforgrade_help'] = 'This is the course that final grades will be imported from.';
+$string['modulename'] = 'Final Grade';
+$string['modulenameplural'] = 'Final Grades';
+$string['modulename_help'] = 'Use this activity to import final grades from other courses. This activity automatically synchronizes the grades when updated on the source course.';
+$string['finalgradename'] = 'Final Grade Name';
+$string['finalgradename_help'] = 'This is the name of the activity/grade item on the course.';
 $string['finalgrade'] = 'finalgrade';
 $string['pluginadministration'] = 'finalgrade administration';
 $string['pluginname'] = 'finalgrade';
+$string['plugindescription'] = 'This activiy imports final grades from course "{$a}".<br/> You don\'t have to do anything as this is automatically synchronized.';
 $string['courseforgrade'] = 'Course to import grades from';

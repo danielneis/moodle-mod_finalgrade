@@ -20,13 +20,10 @@
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
- * @package    mod
- * @subpackage finalgrade
- * @copyright  2011 Your Name
+ * @package    mod_finalgrade
+ * @copyright  2018 Daniel Neis Araujo <danielneis@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-/// (Replace finalgrade with the name of your module and remove this line)
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
@@ -37,41 +34,33 @@ $n  = optional_param('n', 0, PARAM_INT);  // finalgrade instance ID - it should 
 if ($id) {
     $cm         = get_coursemodule_from_id('finalgrade', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $finalgrade  = $DB->get_record('finalgrade', array('id' => $cm->instance), '*', MUST_EXIST);
+    $finalgrade = $DB->get_record('finalgrade', array('id' => $cm->instance), '*', MUST_EXIST);
+    $sourcecourse = $DB->get_record('course', array('id' => $finalgrade->course_for_grade), 'id,fullname', MUST_EXIST);
 } elseif ($n) {
-    $finalgrade  = $DB->get_record('finalgrade', array('id' => $n), '*', MUST_EXIST);
+    $finalgrade = $DB->get_record('finalgrade', array('id' => $n), '*', MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $finalgrade->course), '*', MUST_EXIST);
+    $sourcecourse = $DB->get_record('course', array('id' => $finalgrade->course_for_grade), 'id,fullname', MUST_EXIST);
     $cm         = get_coursemodule_from_instance('finalgrade', $finalgrade->id, $course->id, false, MUST_EXIST);
 } else {
     error('You must specify a course_module ID or an instance ID');
 }
 
 require_login($course, true, $cm);
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
-
-add_to_log($course->id, 'finalgrade', 'view', "view.php?id={$cm->id}", $finalgrade->name, $cm->id);
-
-/// Print the page header
+$context = context_module::instance($cm->id);
 
 $PAGE->set_url('/mod/finalgrade/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string($finalgrade->name));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($context);
 
-// other things you may want to set - remove if not needed
-//$PAGE->set_cacheable(false);
-//$PAGE->set_focuscontrol('some-html-id');
-//$PAGE->add_body_class('finalgrade-'.$somevar);
-
-// Output starts here
 echo $OUTPUT->header();
 
-if ($finalgrade->intro) { // Conditions to show the intro can change to look for own settings or whatever
+echo $OUTPUT->heading($finalgrade->name);
+
+echo html_writer::tag('p', get_string('plugindescription', 'mod_finalgrade', $sourcecourse->fullname));
+
+if ($finalgrade->intro) {
     echo $OUTPUT->box(format_module_intro('finalgrade', $finalgrade, $cm->id), 'generalbox mod_introbox', 'finalgradeintro');
 }
 
-// Replace the following lines with you own code
-echo $OUTPUT->heading('Yay! It works!');
-
-// Finish the page
 echo $OUTPUT->footer();

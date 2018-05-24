@@ -63,6 +63,7 @@ class mod_finalgrade_mod_form extends moodleform_mod {
             $options[$c->id] = $c->fullname;
         }
         $mform->addElement('select', 'course_for_grade', get_string('courseforgrade', 'mod_finalgrade'), $options);
+        $mform->addHelpButton('course_for_grade', 'courseforgrade', 'finalgrade');
 
         $this->standard_coursemodule_elements();
 

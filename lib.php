@@ -293,6 +293,7 @@ function finalgrade_grade_item_update($finalgrade, $grades = null) {
              WHERE gi.courseid = ?
                AND gi.itemtype = 'course'";
     $item = (array)$DB->get_record_sql($sql, array($finalgrade->course_for_grade));
+    $item['itemname'] = $finalgrade->name;
     unset($item['id']);
 
     grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, $grades, $item);
@@ -310,10 +311,8 @@ function finalgrade_grade_item_update($finalgrade, $grades = null) {
 function finalgrade_update_grades(stdClass $finalgrade, $userid = 0) {
     global $CFG, $DB;
     require_once($CFG->libdir.'/gradelib.php');
-    require_once($CFG->libdir.'/grade/querylib.php');
 
     $grades = grade_get_course_grades($finalgrade->course_for_grade);
-    var_dump($grades);die();
 
     grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, $grades);
 }

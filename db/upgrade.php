@@ -15,4 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// does nothing
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Execute finalgrade upgrade from the given old version
+ *
+ * @param int $oldversion
+ * @return bool
+ */
+function xmldb_finalgrade_upgrade($oldversion) {
+   global $DB;
+   return true;
+}

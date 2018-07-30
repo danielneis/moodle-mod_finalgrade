@@ -31,8 +31,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/** example constant */
-//define('NEWMODULE_ULTIMATE_ANSWER', 42);
+require_once($CFG->dirroot.'/grade/querylib.php');
 
 ////////////////////////////////////////////////////////////////////////////////
 // Moodle core API                                                            //
@@ -282,7 +281,7 @@ function finalgrade_scale_used_anywhere($scaleid) {
  * @param stdClass $finalgrade instance object with extra cmidnumber and modname property
  * @return void
  */
-function finalgrade_grade_item_update($finalgrade, $grades = null) {
+function finalgrade_grade_item_update($finalgrade) {
     global $CFG, $DB;
     if (!function_exists('grade_update')) { //workaround for buggy PHP versions
         require_once($CFG->libdir.'/gradelib.php');
@@ -296,7 +295,7 @@ function finalgrade_grade_item_update($finalgrade, $grades = null) {
     $item['itemname'] = $finalgrade->name;
     unset($item['id']);
 
-    grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, $grades, $item);
+    grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, null, $item);
 }
 
 /**
@@ -310,11 +309,10 @@ function finalgrade_grade_item_update($finalgrade, $grades = null) {
  */
 function finalgrade_update_grades(stdClass $finalgrade, $userid = 0) {
     global $CFG, $DB;
-    require_once($CFG->libdir.'/gradelib.php');
 
-    $grades = grade_get_course_grades($finalgrade->course_for_grade);
+    $grades = grade_get_course_grades($finalgrade->course_for_grade, $userid);
 
-    grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, $grades);
+    grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, $grades->grades);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

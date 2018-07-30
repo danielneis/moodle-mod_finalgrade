@@ -26,7 +26,8 @@
  */
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once(dirname(__FILE__).'/lib.php');
+require_once($CFG->dirroot.'/mod/finalgrade/lib.php');
+require_once($CFG->libdir.'/gradelib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // course_module ID, or
 $n  = optional_param('n', 0, PARAM_INT);  // finalgrade instance ID - it should be named as the first character of the module
@@ -57,7 +58,11 @@ echo $OUTPUT->header();
 
 echo $OUTPUT->heading($finalgrade->name);
 
-echo html_writer::tag('p', get_string('plugindescription', 'mod_finalgrade', $sourcecourse->fullname));
+$grading_info = grade_get_grades($course->id, 'mod', 'finalgrade', $finalgrade->id, $USER->id);
+$str = new stdclass();
+$str->coursename = $sourcecourse->fullname;
+$str->coursegrade = $grading_info->items[0]->grades[$USER->id]->str_grade;
+echo html_writer::tag('p', get_string('plugindescription', 'mod_finalgrade', $str));
 
 if ($finalgrade->intro) {
     echo $OUTPUT->box(format_module_intro('finalgrade', $finalgrade, $cm->id), 'generalbox mod_introbox', 'finalgradeintro');

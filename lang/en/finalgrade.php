@@ -40,5 +40,5 @@ $string['finalgradename_help'] = 'This is the name of the activity/grade item on
 $string['finalgrade'] = 'finalgrade';
 $string['pluginadministration'] = 'finalgrade administration';
 $string['pluginname'] = 'finalgrade';
-$string['plugindescription'] = 'This activiy imports final grades from course "{$a}".<br/> You don\'t have to do anything as this is automatically synchronized.';
+$string['plugindescription'] = 'This activiy uses final grades from the "{$a->coursename}" course .<br/>Your grade is: {$a->coursegrade}.';
 $string['courseforgrade'] = 'Course to import grades from';

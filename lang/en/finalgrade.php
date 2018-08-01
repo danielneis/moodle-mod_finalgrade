@@ -28,15 +28,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['courseforgrade'] = 'Source Course';
+$string['courseforgrade'] = 'Course to import grades from';
 $string['courseforgrade_help'] = 'This is the course that final grades will be imported from.';
-$string['modulename'] = 'Final Grade';
-$string['modulenameplural'] = 'Final Grades';
-$string['modulename_help'] = 'Use this activity to import final grades from other courses. This activity automatically synchronizes the grades when updated on the source course.';
 $string['finalgradename'] = 'Final Grade Name';
 $string['finalgradename_help'] = 'This is the name of the activity/grade item on the course.';
-$string['finalgrade'] = 'finalgrade';
+$string['modulename'] = 'Final Grade Import';
+$string['modulenameplural'] = 'Final Grades Import';
+$string['modulename_help'] = 'Use this activity to import final grades from other courses. This activity automatically synchronizes the grades when updated on the source course.';
 $string['pluginadministration'] = 'finalgrade administration';
-$string['pluginname'] = 'finalgrade';
+$string['pluginname'] = 'Final Grade Import';
 $string['plugindescription'] = 'This activiy uses final grades from the "{$a->coursename}" course .<br/>Your grade is: {$a->coursegrade}.';
-$string['courseforgrade'] = 'Course to import grades from';
+$string['privacy:metadata'] = 'The Calendar block only displays existing calendar data.';

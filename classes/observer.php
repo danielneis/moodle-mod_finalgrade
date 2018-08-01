@@ -41,11 +41,11 @@ class mod_finalgrade_observer {
         $courseid = $event->get_context()->get_course_context()->instanceid;
         if ($modules = $DB->get_records_sql($sql, array($courseid))) {
 
-            $grade_item =  grade_item::fetch(array('id' => $event->other['itemid']));
-            $grade_grades = grade_grade::fetch_users_grades($grade_item, array($event->relateduserid), true);
+            $gradeitem = grade_item::fetch(array('id' => $event->other['itemid']));
+            $gradegrades = grade_grade::fetch_users_grades($gradeitem, array($event->relateduserid), true);
 
             foreach ($modules as $m) {
-                foreach ($grade_grades as $gg) {
+                foreach ($gradegrades as $gg) {
                     $grades = array('userid' => $gg->userid, 'rawgrade' => $gg->rawgrade, 'rawgrade' => $gg->finalgrade);
                     grade_update('mod/finalgrade', $m->course, 'mod', 'finalgrade', $m->id, 0, $grades);
                 }

@@ -31,6 +31,6 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function xmldb_finalgrade_upgrade($oldversion) {
-   global $DB;
-   return true;
+    global $DB;
+    return true;
 }

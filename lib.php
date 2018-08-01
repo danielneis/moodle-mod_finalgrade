@@ -32,9 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/grade/querylib.php');
 
-////////////////////////////////////////////////////////////////////////////////
-// Moodle core API                                                            //
-////////////////////////////////////////////////////////////////////////////////
+// Moodle core API.
 
 /**
  * Returns the information on whether the module supports a feature
@@ -45,9 +43,12 @@ require_once($CFG->dirroot.'/grade/querylib.php');
  */
 function finalgrade_supports($feature) {
     switch($feature) {
-        case FEATURE_MOD_INTRO:         return true;
-        case FEATURE_GRADE_HAS_GRADE:   return true;
-        default:                        return null;
+        case FEATURE_MOD_INTRO:
+          return true;
+        case FEATURE_GRADE_HAS_GRADE:
+          return true;
+        default:
+          return null;
     }
 }
 
@@ -134,7 +135,8 @@ function finalgrade_grade_item_delete($finalgrade) {
     global $CFG;
     require_once($CFG->libdir.'/gradelib.php');
 
-    return grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, NULL, array('deleted'=>1));
+    return grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade',
+                        $finalgrade->id, 0, null, array('deleted' => 1));
 }
 
 /**
@@ -175,7 +177,7 @@ function finalgrade_user_complete($course, $user, $mod, $finalgrade) {
  * @return boolean
  */
 function finalgrade_print_recent_activity($course, $viewfullnames, $timestart) {
-    return false;  //  True if anything was printed, otherwise false
+    return false;
 }
 
 /**
@@ -227,9 +229,7 @@ function finalgrade_get_extra_capabilities() {
     return array();
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// Gradebook API                                                              //
-////////////////////////////////////////////////////////////////////////////////
+// Gradebook API.
 
 /**
  * Is a given scale used by the instance of finalgrade?
@@ -245,7 +245,6 @@ function finalgrade_get_extra_capabilities() {
 function finalgrade_scale_used($finalgradeid, $scaleid) {
     global $DB;
 
-    /** @example */
     if ($scaleid and $DB->record_exists('finalgrade', array('id' => $finalgradeid, 'grade' => -$scaleid))) {
         return true;
     } else {
@@ -264,7 +263,6 @@ function finalgrade_scale_used($finalgradeid, $scaleid) {
 function finalgrade_scale_used_anywhere($scaleid) {
     global $DB;
 
-    /** @example */
     if ($scaleid and $DB->record_exists('finalgrade', array('grade' => -$scaleid))) {
         return true;
     } else {
@@ -282,7 +280,7 @@ function finalgrade_scale_used_anywhere($scaleid) {
  */
 function finalgrade_grade_item_update($finalgrade) {
     global $CFG, $DB;
-    if (!function_exists('grade_update')) { //workaround for buggy PHP versions
+    if (!function_exists('grade_update')) { // Workaround for buggy PHP versions.
         require_once($CFG->libdir.'/gradelib.php');
     }
 
@@ -314,9 +312,7 @@ function finalgrade_update_grades(stdClass $finalgrade, $userid = 0) {
     grade_update('mod/finalgrade', $finalgrade->course, 'mod', 'finalgrade', $finalgrade->id, 0, $grades->grades);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// File API                                                                   //
-////////////////////////////////////////////////////////////////////////////////
+// File API.
 
 /**
  * Returns the lists of all browsable file areas within the given module context
@@ -380,9 +376,7 @@ function finalgrade_pluginfile($course, $cm, $context, $filearea, array $args, $
     send_file_not_found();
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// Navigation API                                                             //
-////////////////////////////////////////////////////////////////////////////////
+// Navigation API.
 
 /**
  * Extends the global navigation tree by adding finalgrade nodes if there is a relevant content
@@ -412,15 +406,13 @@ function finalgrade_extend_settings_navigation(settings_navigation $settingsnav,
 function finalgrade_grade_regrade_final_grades($eventdata) {
     global $DB;
 
-    // if we have a finalgrade module instance that import grades from the updated course
-
     $sql = "SELECT * FROM finalgrade WHERE course_for_grade = {$eventdata->courseid}";
     if ($modules = $DB->get_records_sql($sql)) {
 
-        $grade_grades = grade_grade::fetch_users_grades($eventdata->updateditem, array($eventdata->userid), true);
+        $gradegrades = grade_grade::fetch_users_grades($eventdata->updateditem, array($eventdata->userid), true);
 
         foreach ($modules as $m) {
-            foreach ($grade_grades as $gg) {
+            foreach ($gradegrades as $gg) {
                 $grades = array('userid' => $gg->userid, 'rawgrade' => $gg->rawgrade, 'rawgrade' => $gg->finalgrade);
                 grade_update('mod/finalgrade', $m->course, 'mod', 'finalgrade', $m->id, 0, $grades);
             }

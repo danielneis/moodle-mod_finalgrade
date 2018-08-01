@@ -16,15 +16,14 @@
 
 
 /**
- * Defines the version of finalgrade
- *
- * This code fragment is called by moodle_needs_upgrading() and
- * /admin/index.php
+ * Observers used on finalgrade mod
  *
  * @package    mod_finalgrade
  * @copyright  2018 Daniel Neis Araujo <danielneis@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
 
 $observers = array (
 

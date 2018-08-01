@@ -55,9 +55,12 @@ class mod_finalgrade_mod_form extends moodleform_mod {
 
         $this->standard_intro_elements();
 
-        $courses = get_courses("all", "fullname DESC", "c.id, c.fullname");
+        $courses = get_user_capability_course('moodle/course:managegrades', null, true, "fullname");
         $options = array();
         foreach ($courses as $c) {
+            if ($c->id == $this->get_course()->id) {
+                continue;
+            }
             $options[$c->id] = $c->fullname;
         }
         $mform->addElement('select', 'course_for_grade', get_string('courseforgrade', 'mod_finalgrade'), $options);

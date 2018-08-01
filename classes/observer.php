@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Event observers used in forum.
+ * Event observers used in finalgrade.
  *
- * @package    mod_forum
+ * @package    mod_finalgrade
  * @copyright  2018 Daniel Neis Araujo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

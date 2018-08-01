@@ -23,9 +23,8 @@
  * logic, should go to locallib.php. This will help to save some memory when
  * Moodle is performing actions across all modules.
  *
- * @package    mod
- * @subpackage finalgrade
- * @copyright  2011 Your Name
+ * @package    mod_finalgrade
+ * @copyright  2018 Daniel Neis Araujo <danielneis@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

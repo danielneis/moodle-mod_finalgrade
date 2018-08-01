@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,6 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
+
+/**
+ * This file implements the upgrade procedures for the finalgrade module.
+ *
+ * @package    mod_finalgrade
+ * @copyright  2018 Daniel Neis Araujo <danielneis@gmail.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 /**
  * Execute finalgrade upgrade from the given old version

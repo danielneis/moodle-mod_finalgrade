@@ -22,7 +22,7 @@
  * /admin/index.php
  *
  * @package    mod_finalgrade
- * @copyright  2013 Onwards Daniel Neis Araujo
+ * @copyright  2018 Daniel Neis Araujo <danielneis@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

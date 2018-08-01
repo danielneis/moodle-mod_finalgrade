@@ -41,7 +41,7 @@
  * The variable name for the capability definitions array is $capabilities
  *
  * @package    mod_finalgrade
- * @copyright  2018 Daniel Neis Araujo
+ * @copyright  2018 Daniel Neis Araujo <danielneis@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
